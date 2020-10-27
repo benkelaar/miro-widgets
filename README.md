@@ -10,7 +10,8 @@ but updates over all widgets are not.  While a Z-index shift is going on concurr
 get a view that misses one or two widgets.  Everything should at least be eventually consistent.
 
 ## Big-O
-Solution should be log(n) for most operations.
+Solution should be `log(n)` for most operations. Worst case scenario on create (all widgets need
+to be shifted) is `n*log(n)`.
 
 ## Further work
 First next step would be to introduce concurrency testing to verify that the solution is indeed

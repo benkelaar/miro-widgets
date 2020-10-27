@@ -52,7 +52,7 @@ class ConcurrentWidgetStorage(
 
     override fun getAllSorted() = orderedStorage.values.toList()
 
-    private fun findMaxZIndex() = orderedStorage.pollLastEntry()?.let { entry -> entry.key+ 1 } ?: 0
+    private fun findMaxZIndex() = orderedStorage.pollLastEntry()?.let { entry -> entry.key + 1 } ?: 0
 
     private fun ConcurrentSkipListMap<ZIndex, Widget>.shiftIn(widget: Widget): Widget? =
         put(widget.zIndex, widget)?.let { shiftIn(it.updatedCopy(newZIndex = it.zIndex + 1)) }
