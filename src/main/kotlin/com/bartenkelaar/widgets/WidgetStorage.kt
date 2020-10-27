@@ -23,7 +23,7 @@ interface WidgetStorage {
      * - Given - 1,2,3; New - **2**; Result - 1,**2**,3,4; Explanation: 2 and 3 were shifted.
      * - Given - 1,5,6; New - **2**; Result - 1,**2**,5,6; Explanation: No one shifted;
      */
-    fun createWidget(coordinates: Coordinates, dimensions: Dimensions, zIndex: ZIndex = 0): Widget
+    fun createWidget(coordinates: Coordinates, dimensions: Dimensions, zIndex: ZIndex? = null): Widget
 
     /**
      * Returns an updated full description of the widget. We cannot change the widget id.

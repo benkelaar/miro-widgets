@@ -21,11 +21,12 @@ class ConcurrentWidgetStorage(
     private val orderedStorage = ConcurrentSkipListMap<ZIndex, Widget>()
     private val indexedStorage = ConcurrentHashMap<WidgetId, Widget>()
 
-    override fun createWidget(coordinates: Coordinates, dimensions: Dimensions, zIndex: ZIndex): Widget {
+    override fun createWidget(coordinates: Coordinates, dimensions: Dimensions, zIndex: ZIndex?): Widget {
         val id = generateId()
         check(id !in indexedStorage.keys) { "ID collision, please provide better ID generator" }
 
-        val widget = Widget(id, coordinates, dimensions, zIndex, now())
+        val z = zIndex ?: findMaxZIndex()
+        val widget = Widget(id, coordinates, dimensions, z, now())
         indexedStorage[id] = widget
         orderedStorage.shiftIn(widget)
 
@@ -50,6 +51,8 @@ class ConcurrentWidgetStorage(
     }!!
 
     override fun getAllSorted() = orderedStorage.values.toList()
+
+    private fun findMaxZIndex() = orderedStorage.pollLastEntry()?.let { entry -> entry.key+ 1 } ?: 0
 
     private fun ConcurrentSkipListMap<ZIndex, Widget>.shiftIn(widget: Widget): Widget? =
         put(widget.zIndex, widget)?.let { shiftIn(it.updatedCopy(newZIndex = it.zIndex + 1)) }

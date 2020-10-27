@@ -38,6 +38,22 @@ class ConcurrentWidgetStorageTest {
         }
 
         @Test
+        fun `given no Z coordinate, expect maximum taken from existing`() {
+            val coords = Coordinates(5, 7)
+            val dims = Dimensions(100, 200)
+            widgetStorage.createWidget(coords, dims)
+            widgetStorage.createWidget(coords, dims, -50)
+            widgetStorage.createWidget(coords, dims, -50)
+            widgetStorage.createWidget(coords, dims, 30)
+            widgetStorage.createWidget(coords, dims, 30)
+            widgetStorage.createWidget(coords, dims, 10)
+
+            val testWidget = widgetStorage.createWidget(coords, dims)
+
+            assertThat(testWidget.zIndex).isEqualTo(32)
+        }
+
+        @Test
         fun `given duplicate ID, expect IllegalStateException`() {
             val coords = Coordinates(1, 2)
             val dims = Dimensions(10, 10)
@@ -71,7 +87,7 @@ class ConcurrentWidgetStorageTest {
             val widget1 = staticTimeStorage.createWidget(coords, dims, zIndex)
             val widget2 = staticTimeStorage.createWidget(coords, dims, zIndex)
             val widget3 = staticTimeStorage.createWidget(coords, dims, zIndex)
-            val widgetAt0 = staticTimeStorage.createWidget(coords, dims)
+            val widgetAt0 = staticTimeStorage.createWidget(coords, dims, 0)
 
             val list = staticTimeStorage.getAllSorted()
 
