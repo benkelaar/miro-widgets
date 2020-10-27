@@ -42,7 +42,7 @@ class ConcurrentWidgetStorage(
         requireNotNull(oldWidget) { "Unknown WidgetId" }
 
         val widget = oldWidget.updatedCopy(coordinates, dimensions, zIndex)
-        if (zIndex != null) {
+        if (zIndex != null && zIndex != oldWidget.zIndex) {
             orderedStorage.remove(oldWidget.zIndex)
             orderedStorage.shiftIn(widget)
         }
