@@ -66,6 +66,7 @@ class ConcurrentWidgetStorage(
         )
 
     companion object {
+        @JvmStatic
         fun default() = ConcurrentWidgetStorage(UUID::randomUUID, OffsetDateTime::now)
     }
 }
