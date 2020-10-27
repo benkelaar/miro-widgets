@@ -30,6 +30,8 @@ interface WidgetStorage {
      * All changes to widgets must occur atomically. That is, if we change the *XY* coordinates of
      * the widget, then we should not get an intermediate state during concurrent reading.
      * The rules related to the Z-index are the same as when creating a widget.
+     *
+     * Calling this function with only widgetId will update Widget#lastModificationDate.
      */
     fun updateWidget(
         widgetId: WidgetId,
